@@ -50,6 +50,16 @@ wstring MyWindows::ConvertToWString(string st)
 	wstring_convert<convert_t, wchar_t> strconverter;
 	return strconverter.from_bytes(st);
 }
+
+/// <summary>
+/// Display a string at a specific location (x, y)
+/// relating to MyWindows instance with custom colors
+/// </summary>
+/// <param name="st">The symbol to display</param>
+/// <param name="x">Horizontal axis</param>
+/// <param name="y">Vertical axis</param>
+/// <param name="backgroundColor"></param>
+/// <param name="foregroundColor"></param>
 void MyWindows::Write(wstring st, int x, int y, int backgroundColor, int foregroundColor) {
 	HANDLE hout = GetStdHandle(STD_OUTPUT_HANDLE);
 	int stringlen = st.length();
@@ -63,8 +73,10 @@ void MyWindows::Write(wstring st, int x, int y, int backgroundColor, int foregro
 		consoletext[i].Char.UnicodeChar = text[i];
 		consoletext[i].Attributes = wColor;
 	}
+	// https://docs.microsoft.com/en-us/windows/console/writeconsoleoutput
 	WriteConsoleOutput(hout, consoletext, a, b, &c);
 }
+
 void MyWindows::Write(string st, int x, int y, int backgroundColor, int foregroundColor) {
 	Write(ConvertToWString(st), x, y, backgroundColor, foregroundColor);
 }
